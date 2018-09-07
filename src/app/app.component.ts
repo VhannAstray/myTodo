@@ -84,6 +84,9 @@ export class AppComponent {
     this.checkedStatus = this._allChecked();
   }
 
+  /**
+   * Change le titre (la variable Title)
+   */
   public changeTitle(): void {
     this.title = 'Hola Angular';
   }
@@ -132,6 +135,7 @@ export class AppComponent {
       this.todos[index].isChecked = this.checkedStatus;
     }
   }
+
   /**
    * Méthode qui vérifie la liste des todos pour voir si tout est coché.
   */
