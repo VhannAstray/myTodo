@@ -7,7 +7,7 @@ import { TodoInterface } from './shared/interfaces/todo-interface';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public title: String = 'ceQueVousVoulez';
+  public title: String = 'Liste des TODOS';
 
   /**
    * @var todos: TodoInterface[]
@@ -131,9 +131,8 @@ export class AppComponent {
    * méthode qui vérifie les todos cochés.
    */
   private _check():void {
-    for (let index = 0; index < this.todos.length; index++){
-      this.todos[index].isChecked = this.checkedStatus;
-    }
+    for (let index = 0; index < this.todos.length; index++)
+      this.todos[index].isChecked = this.checkedStatus;    
   }
 
   /**
