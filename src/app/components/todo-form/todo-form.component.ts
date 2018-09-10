@@ -66,7 +66,7 @@ export class TodoFormComponent implements OnInit {
   public saveTodo(): void {
     const _todo: TodoInterface = this.todoForm.value;
     _todo.isChecked = false;
-    this.todoService.sendTodo(
+    this.todoService.addTodo(
       _todo
     );
   }

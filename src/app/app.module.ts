@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { TodoTableComponent } from './components/todo-table/todo-table.component';
-
+import { HttpClientModule } from "@angular/common/http";
 import { TodoService} from './shared/services/todo.service';
 
 @NgModule({
@@ -15,7 +15,8 @@ import { TodoService} from './shared/services/todo.service';
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     TodoService

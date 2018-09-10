@@ -27,5 +27,5 @@ export interface TodoInterface {
      * @var boolean
      * Vrai si le todo est coché
      */
-    isChecked: Boolean;
+    isChecked?: Boolean;
 }

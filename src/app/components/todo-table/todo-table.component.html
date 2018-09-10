@@ -3,6 +3,8 @@
     <tr>
       <th><input type="checkbox"></th>
       <th>Titre</th>
+      <th>Début</th>
+      <th>Fin</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
@@ -10,7 +12,11 @@
     <tr *ngFor="let todo of todos; let i = index;">
       <td><input type="checkbox"></td>
       <td>{{ todo.title }}</td>
-      <td><button type="button">X</button></td>
+      <td>{{ todo.begin }}</td>
+      <td>{{ todo.end }}</td>
+      <td><button type="button" class="btn btn-default btn-sm" (click)="remove(i)">
+          <i class="fa fa-check"></i>
+        </button></td>
     </tr>
   </tbody>
 </table>

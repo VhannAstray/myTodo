@@ -26,13 +26,30 @@ export class TodoTableComponent implements OnInit {
     this.todos = []; // Définit le tableau des todos à afficher
     this.todoSubscription = this.todoService.getTodo()
       .subscribe((todo) => {
-        console.log('Observable Todo : '+JSON.stringify(todo));
+        console.log('Observable Todo : ' + JSON.stringify(todo));
         //Ajoute le todo à la liste des todos
         this.todos.push(todo);
       });
-   }
-
-  ngOnInit() {
   }
 
+  /**
+   * Après la construction de l'objet, on charge la liste des todos
+   * existant dans la base
+   */
+  ngOnInit() {
+    // Récupère les todos existants dans la base
+    this.todoService.getTodos().subscribe((todos) => {
+      this.todos = todos;
+      console.log('Il y a ' + this.todos.length + ' todos à afficher.');
+    });
+  }
+
+  /**
+   * Méthode de supression unique
+   */
+  public remove(index: number): void {    
+    const _todo = this.todos[index];
+    this.todos.splice(index,1);
+    this.todoService.deleteTodo(_todo);
+  }
 }
