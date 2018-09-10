@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DateValidators } from './../../shared/validators/date-validators';
+import { TodoService } from "./../../shared/services/todo.service";
+import { TodoInterface } from '../../shared/interfaces/todo-interface';
 
 @Component({
   selector: 'todo-form',
@@ -15,12 +17,10 @@ export class TodoFormComponent implements OnInit {
    */
   public todoForm: FormGroup;
 
-  /**
-   * @var todos: Liste des todos 
-  */
-  
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private todoService: TodoService
+  ) { }
 
   /**
    * @return FormControl Contrôle title du formulaire
@@ -58,6 +58,16 @@ export class TodoFormComponent implements OnInit {
           DateValidators.dateLessThan('begin', 'end', { 'begin': true })
         ])
       }
+    );
+  }
+  /**
+   * Emet le nouveau todo vers le service TodoService
+   */
+  public saveTodo(): void {
+    const _todo: TodoInterface = this.todoForm.value;
+    _todo.isChecked = false;
+    this.todoService.sendTodo(
+      _todo
     );
   }
 }

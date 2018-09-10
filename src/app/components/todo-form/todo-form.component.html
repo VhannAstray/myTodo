@@ -1,4 +1,4 @@
-<form class="form-group" [formGroup]="todoForm">
+<form class="form-group" [formGroup]="todoForm" (submit)="saveTodo()">
   <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text">A faire ...</span>
@@ -34,4 +34,4 @@
     <button id="ajouter" class="btn btn-success" [disabled]="todoForm.invalid" type="submit">Ajouter</button>
     <button id="retirer" class="btn btn-danger" type="button">Retirer</button>
   </div>
-</form>>
+</form>

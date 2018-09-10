@@ -1,0 +1,7 @@
+table{
+    width: 600px;
+    margin: 20px;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 140, 255, 0.05);
+}

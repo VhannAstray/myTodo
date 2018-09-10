@@ -41,12 +41,14 @@ export class AppComponent {
    * @return void
    */
   public addTodo(): void {
-    this.todos.push(
-      {
-        title: this.aTodo,
-        isChecked: false
-      }
-    );
+    // this.todos.push(
+    //   {
+    //     title: this.aTodo,
+    //     isChecked: false,
+    //     begin: '',
+    //     end:''
+    //   }
+    // );
     this.aTodo = '';
   }
 

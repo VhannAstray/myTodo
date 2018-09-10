@@ -1,5 +1,11 @@
 export interface TodoInterface {
     /**
+     * @var (optional) id: number
+     * Identifiant du todo
+     */   
+    id?: number;
+    
+    /**
      * Titre du Todo
      * @var String
      */
