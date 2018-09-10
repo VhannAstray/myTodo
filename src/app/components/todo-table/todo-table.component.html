@@ -1,7 +1,7 @@
 <table [hidden]="todos.length == 0" class="table table-striped">
   <thead>
     <tr>
-      <th><input type="checkbox"></th>
+      <th><input type="checkbox" (click)="checkUncheckAll()"></th>
       <th>Titre</th>
       <th>Début</th>
       <th>Fin</th>
@@ -10,13 +10,18 @@
   </thead>
   <tbody>
     <tr *ngFor="let todo of todos; let i = index;">
-      <td><input type="checkbox"></td>
+      <td><input type="checkbox" [checked]="todo.isChecked"></td>
       <td>{{ todo.title }}</td>
       <td>{{ todo.begin }}</td>
       <td>{{ todo.end }}</td>
-      <td><button type="button" class="btn btn-default btn-sm" (click)="remove(i)">
+      <td>
+        <button type="button" class="btn btn-warning btn-sm" (click)="update(todo)">
+          <i class="fa fa-address-card"></i>
+        </button>
+        <button type="button" class="btn btn-success btn-sm" (click)="remove(i)">
           <i class="fa fa-check"></i>
-        </button></td>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

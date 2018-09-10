@@ -44,7 +44,7 @@ export class TodoService {
    * Diffuse le sujet vers les abonnés
    * @param todo TodoInterface un todo qui passe par là
    */
-  private sendTodo (todo: TodoInterface) {
+  public sendTodo (todo: TodoInterface) {
     this.todoSubject.next(todo);
   }
 

@@ -32,6 +32,6 @@
   </div>
   <div id="buttonControl">
     <button id="ajouter" class="btn btn-success" [disabled]="todoForm.invalid" type="submit">Ajouter</button>
-    <button id="retirer" class="btn btn-danger" type="button">Retirer</button>
+    <button id="retirer" class="btn btn-danger" (click)="removeTodoSel()" type="button">Retirer</button>
   </div>
 </form>
