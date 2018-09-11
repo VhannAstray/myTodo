@@ -5,6 +5,11 @@ import { TodoService } from "./../../shared/services/todo.service";
 import { TodoInterface } from '../../shared/interfaces/todo-interface';
 import { Subscription } from 'rxjs';
 
+/**
+ * Importation de la librairie tierce "moment.js"
+ */
+import * as moment from 'moment';
+
 @Component({
   selector: 'todo-form',
   templateUrl: './todo-form.component.html',
@@ -73,11 +78,11 @@ export class TodoFormComponent implements OnInit {
           [Validators.required, Validators.minLength(5)] // Règle de validation à appliquer
         ],
         begin: [
-          this.todoToUpdate.begin,
+          moment(this.todoToUpdate.begin).format('YYYY-MM-DD'),
           [Validators.required]
         ],
         end: [
-          this.todoToUpdate.end,
+          moment(this.todoToUpdate.end).format('YYYY-MM-DD'),
           [Validators.required]
         ]
       },
@@ -94,9 +99,18 @@ export class TodoFormComponent implements OnInit {
   public saveTodo(): void {
     const _todo: TodoInterface = this.todoForm.value;
     _todo.isChecked = false;
-    this.todoService.addTodo(
-      _todo
-    );
+    // On doit tenir compte d'un todoTuUpdate complet
+    console.log('todoTuUpdate : ' + JSON.stringify(this.todoToUpdate));
+
+    if(this.todoToUpdate.hasOwnProperty('id')){
+      // C'est une mise à jour
+      _todo.id = this.todoToUpdate.id;
+      this.todoService.updateTodo(_todo);
+    } else {
+      // C'est une insertion
+      this.todoService.addTodo(_todo);
+      console.log('Je passe dans une insertion');
+    }
   }
   private _loadForm(): void {
     this.ngOnInit();

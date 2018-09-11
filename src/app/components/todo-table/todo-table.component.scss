@@ -5,3 +5,15 @@ table{
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0, 140, 255, 0.05);
 }
+/**
+* Design du composant AppComponent
+**/ 
+table {
+    tbody {
+        td {
+            &.strikeOut {
+                text-decoration: line-through;
+            }
+        }
+    }
+}

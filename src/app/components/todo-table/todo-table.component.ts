@@ -34,9 +34,26 @@ export class TodoTableComponent implements OnInit {
       .subscribe((todo) => {
         console.log('Observable Todo : ' + JSON.stringify(todo));
         //Ajoute le todo à la liste des todos
-        // s'il n'existe pas déjà ...
-        if (this.todos.indexOf(todo) === -1)
+        // s'il n'existe pas déjà ..
+        // Attention, s'il existe, je dois remplacer par les nouvelles valeurs
+        const index = this.todos.findIndex((obj) => obj.id == todo.id);
+        // let indice: number = -1;
+        // let ticker: number = 0;
+        // for (const _todo of this.todos){
+        //   if(_todo.id === todo.id){
+        //     indice = ticker;
+        //   }
+        //   ticker++;
+        // }
+
+        // Quand j'ajoute un todo dans la liste
+        if (index === -1 && todo.hasOwnProperty('id')) {
+          console.log('Je passe dans l\'ajout');
           this.todos.push(todo);
+        } else { // Je modifie un existant
+          console.log('Je passe dans le else');
+          this.todos[index] = todo;
+        }
       });
   }
 
