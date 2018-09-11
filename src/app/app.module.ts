@@ -7,6 +7,7 @@ import { TodoTableComponent } from './components/todo-table/todo-table.component
 import { HttpClientModule } from "@angular/common/http";
 import { TodoService} from './shared/services/todo.service';
 import { UiModule } from './modules/ui/ui.module';
+import { MaterialModule } from './modules/material/material.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UiModule } from './modules/ui/ui.module';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    UiModule
+    UiModule,
+    MaterialModule
   ],
   providers: [
     TodoService
