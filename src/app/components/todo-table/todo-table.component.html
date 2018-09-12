@@ -1,27 +1,65 @@
-<table [hidden]="todos.length == 0" class="table table-striped">
-  <thead>
-    <tr>
-      <th><input type="checkbox" (click)="checkUncheckAll()"></th>
-      <th>Titre</th>
-      <th>Début</th>
-      <th>Fin</th>
-      <th>&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let todo of todos; let i = index;">
-      <td><input type="checkbox" (click)="toggle(i)" [checked]="todo.isChecked"></td>
-      <td [ngClass]="{strikeOut: todo.isChecked}">{{ todo.title }}</td>
-      <td [ngClass]="{strikeOut: todo.isChecked}">{{ todo.begin | date: 'dd-MM-yyyy'}}</td>
-      <td [ngClass]="{strikeOut: todo.isChecked}">{{ todo.end | date: 'dd-MM-yyyy' }}</td>
-      <td>
-        <button type="button" class="btn btn-warning btn-sm" (click)="update(todo)">
-          <i class="fa fa-address-card"></i>
-        </button>
-        <button type="button" class="btn btn-success btn-sm" (click)="remove(i)">
-          <i class="fa fa-check"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<mat-toolbar color="primary">
+  <span>Outils</span>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+
+  <span>
+    <mat-form-field>
+      <mat-select [(ngModel)]="checkedColumns" placeholder="Afficher" [formControl]="columns" multiple>
+        <mat-option *ngFor="let column of selectColumns" (click)="updateColumn(column)" [value]="column">{{column}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span>&nbsp;</span>
+    <button type="button" class="btn btn-danger" [disabled]="noneChecked()" (click)="deleteChecked()">
+      <i class="fa fa-trash"></i>
+    </button>
+  </span>
+</mat-toolbar>
+<mat-table #todos [dataSource]="dataSource" matSort>
+
+  <!-- Titre-->
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef> A faire </mat-header-cell>
+    <mat-cell *matCellDef="let todo"> {{ todo.title }}</mat-cell>
+  </ng-container>
+
+  <!-- Date de début-->
+  <ng-container matColumnDef="begin">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Du ... </mat-header-cell>
+    <mat-cell *matCellDef="let todo"> {{ todo.begin | date: 'dd-MM-yyyy' }}</mat-cell>
+  </ng-container>
+
+  <!-- Date de fin-->
+  <ng-container matColumnDef="end">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Au ... </mat-header-cell>
+    <mat-cell *matCellDef="let todo"> {{ todo.end | date: 'dd-MM-yyyy' }}</mat-cell>
+  </ng-container>
+
+  <!-- Modification d'un todo -->
+  <ng-container matColumnDef="update">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let todo">
+      <button mat-mini-fab color="accent" (click)="update(todo)">
+        <mat-icon aria-label="Modifier le todo">
+          create
+        </mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Bouton de suppression -->
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let todo">
+      <button mat-mini-fab color="accent" (click)="delete(todo)">
+        <mat-icon aria-label="Supprimer le todo">
+          delete
+        </mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

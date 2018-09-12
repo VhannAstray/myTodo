@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TodoService } from "./../../shared/services/todo.service";
 import { TodoInterface } from '../../shared/interfaces/todo-interface';
+import { FormControl } from "@angular/forms";
 
+
+// Importation des composants Material
+import { MatTableDataSource, MatPaginator, MatSort, MatSelect, MatOption } from '@angular/material';
 
 @Component({
   selector: 'todo-table',
@@ -10,6 +14,7 @@ import { TodoInterface } from '../../shared/interfaces/todo-interface';
   styleUrls: ['./todo-table.component.scss']
 })
 export class TodoTableComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
 
   /** 
    * Abonnement à un todo qui vient de l'espace (meuh non.. de TodoService)
@@ -26,6 +31,61 @@ export class TodoTableComponent implements OnInit {
    * @var TodoInter
    */
   private todos: TodoInterface[];
+
+  /**
+   * Source de données pour le tableau Material
+   */
+  public dataSource = new MatTableDataSource<TodoInterface>();
+
+  public columns = new FormControl(); // Binding vers la liste
+
+  /**
+   * Colonnes utilisées dans mat-table
+   */
+  public displayedColumns: String[] = [
+    'title',
+    'begin',
+    'end',
+    'update',
+    'delete'
+  ];
+
+  /**
+   * Colonne affichées dans la liste
+   */
+  public selectColumns: String[] = [
+    'begin',
+    'end'
+  ]
+
+  /**
+   * Colonne original nécessaire à la reconstruction des colonnes
+   */
+  public originalColumns: String[] = [
+    'title',
+    'begin',
+    'end',
+    'update',
+    'delete'
+  ];
+
+  /**
+   * Tableau qui mémorise les états des colonnes, nécessaire pour replacer les
+   * colonnes au bon endroits
+   */
+  public stateColumns: Number[] = [
+    1,
+    1,
+    1,
+    1,
+    1
+  ];
+
+  /**
+   * V : Colonne cochées
+   */
+  public checkedColumns: String[] = [
+  ];
 
   constructor(private todoService: TodoService) {
     this.todos = []; // Définit le tableau des todos à afficher
@@ -54,6 +114,7 @@ export class TodoTableComponent implements OnInit {
           console.log('Je passe dans le else');
           this.todos[index] = todo;
         }
+        this.dataSource.data = this.todos;
       });
   }
 
@@ -66,6 +127,13 @@ export class TodoTableComponent implements OnInit {
     this.todoService.getTodos().subscribe((todos) => {
       this.todos = todos;
       console.log('Il y a ' + this.todos.length + ' todos à afficher.');
+
+      // Ici j'initialise la selection sur les éléments déjà afficher
+      this.checkedColumns = this.displayedColumns;
+
+      this.dataSource.data = this.todos;
+      this.dataSource.sort = this.sort;
+      console.log(this.stateColumns);
     });
   }
 
@@ -186,10 +254,15 @@ export class TodoTableComponent implements OnInit {
    * Supprime un todo du tableau
    * @return void
    */
-  public delete(index: number): void {
+  public delete(todo: TodoInterface): void {
     // console.log('Okay je dois enlever l\'élément à l\'indice : ');
     // console.log(index);
+    const index = this.todos.indexOf(todo);
+    const _todo = this.todos[index];
+
     this.todos.splice(index, 1);
+    this.dataSource.data = this.todos;
+    this.todoService.deleteTodo(_todo);
   }
 
   /**
@@ -199,5 +272,33 @@ export class TodoTableComponent implements OnInit {
   public toggle(index: number): void {
     this.todos[index].isChecked = !this.todos[index].isChecked;
     this.checkedStatus = this._allChecked();
+  }
+
+  /**
+   * Affiche ou masque les colonnes lorsqu'on les sélectionne.
+   * @param column La colonne que l'ont veut masquer/afficher
+   */
+  public updateColumn(column): void {
+    const columnTxt: string = column;
+
+    //Si la colonne est déjà affiché, je la masque 
+    if (this.displayedColumns.indexOf(columnTxt) !== -1) {
+      this.stateColumns[this.originalColumns.indexOf(columnTxt)] = 0;
+    }
+    else { // Sinon je la rajoute
+      this.stateColumns[this.originalColumns.indexOf(columnTxt)] = 1;
+    }
+
+    //Je reconstruit le displayColumns à partir du tableau stateColumns.
+    let index = 0;
+    let tempTab = []
+    for (const column of this.originalColumns) {
+      if (this.stateColumns[index] == 1) {
+        tempTab.push(column);
+      }
+      index++;
+    }
+    this.displayedColumns = tempTab;
+    console.log(this.stateColumns);
   }
 }

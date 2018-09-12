@@ -1,8 +1,8 @@
-table{
+mat-table{
     width: 800px;
     margin: auto;
+    margin-top: 15px;
     border: 1px solid #ccc!important;
-    border-radius: 16px;
 }
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0, 140, 255, 0.05);
@@ -18,4 +18,17 @@ table {
             }
         }
     }
+}
+#btnDeleteMulti{
+    justify-content: right;
+}
+.fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+.mat-toolbar.mat-primary {
+    background: #8cbaeb;
+    color: #fff;
+    width: 100%;
 }
