@@ -42,7 +42,7 @@
   <ng-container matColumnDef="update">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let todo">
-      <button mat-mini-fab color="accent" (click)="update(todo)">
+      <button mat-raised-button color="primary" (click)="update(todo)">
         <mat-icon aria-label="Modifier le todo">
           create
         </mat-icon>
@@ -54,7 +54,7 @@
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let todo">
-      <button mat-mini-fab color="accent" (click)="delete(todo)">
+      <button mat-raised-button color="warn" (click)="delete(todo)">
         <mat-icon aria-label="Supprimer le todo">
           delete
         </mat-icon>
