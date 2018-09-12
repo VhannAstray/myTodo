@@ -3,10 +3,12 @@
 
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space"></span>
-
+  <span>Afficher</span>
+  <span>&nbsp;</span>
+  <span>&nbsp;</span>
   <span>
     <mat-form-field>
-      <mat-select [(ngModel)]="checkedColumns" placeholder="Afficher" [formControl]="columns" [(value)]="selectedOptions" multiple>
+      <mat-select [(ngModel)]="checkedColumns" [formControl]="columns" [(value)]="selectedOptions" multiple>
         <mat-option *ngFor="let column of helper.getOptionalColumns()" (click)="changeView()" [value]="column.value">{{column.title}}</mat-option>
       </mat-select>
     </mat-form-field>
