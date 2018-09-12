@@ -32,3 +32,15 @@ table {
     color: #fff;
     width: 100%;
 }
+.mat-option-disabled {
+    color: #000000;
+}
+.mat-cell, .mat-footer-cell, .mat-header-cell {
+    justify-content: center;
+}
+.mat-header-cell {
+    font-size: 18px;
+}
+.mat-accent{
+    background-color: #fff;
+}

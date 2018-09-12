@@ -7,6 +7,8 @@ import { FormControl } from "@angular/forms";
 
 // Importation des composants Material
 import { MatTableDataSource, MatPaginator, MatSort, MatSelect, MatOption } from '@angular/material';
+import { MatColumns } from './../../shared/interfaces/mat-columns';
+import { TodoHelper } from '../../shared/helpers/todo-helper';
 
 @Component({
   selector: 'todo-table',
@@ -40,55 +42,24 @@ export class TodoTableComponent implements OnInit {
   public columns = new FormControl(); // Binding vers la liste
 
   /**
-   * Colonnes utilisées dans mat-table
-   */
-  public displayedColumns: String[] = [
-    'title',
-    'begin',
-    'end',
-    'update',
-    'delete'
-  ];
-
-  /**
-   * Colonne affichées dans la liste
-   */
-  public selectColumns: String[] = [
-    'begin',
-    'end'
-  ]
-
-  /**
-   * Colonne original nécessaire à la reconstruction des colonnes
-   */
-  public originalColumns: String[] = [
-    'title',
-    'begin',
-    'end',
-    'update',
-    'delete'
-  ];
-
-  /**
-   * Tableau qui mémorise les états des colonnes, nécessaire pour replacer les
-   * colonnes au bon endroits
-   */
-  public stateColumns: Number[] = [
-    1,
-    1,
-    1,
-    1,
-    1
-  ];
-
-  /**
    * V : Colonne cochées
    */
   public checkedColumns: String[] = [
   ];
 
+  /**
+   * Instance de la classe TodoHelper
+   */
+  public helper: TodoHelper;
+
+  public selectedOptions: String [];
+
   constructor(private todoService: TodoService) {
     this.todos = []; // Définit le tableau des todos à afficher
+
+    // Instance le helper
+    this.helper = new TodoHelper();
+    this.checkedColumns = this.helper.optionalColumnsToArray();
     this.checkedStatus = false;
     this.todoSubscription = this.todoService.getTodo()
       .subscribe((todo) => {
@@ -97,14 +68,6 @@ export class TodoTableComponent implements OnInit {
         // s'il n'existe pas déjà ..
         // Attention, s'il existe, je dois remplacer par les nouvelles valeurs
         const index = this.todos.findIndex((obj) => obj.id == todo.id);
-        // let indice: number = -1;
-        // let ticker: number = 0;
-        // for (const _todo of this.todos){
-        //   if(_todo.id === todo.id){
-        //     indice = ticker;
-        //   }
-        //   ticker++;
-        // }
 
         // Quand j'ajoute un todo dans la liste
         if (index === -1 && todo.hasOwnProperty('id')) {
@@ -129,11 +92,10 @@ export class TodoTableComponent implements OnInit {
       console.log('Il y a ' + this.todos.length + ' todos à afficher.');
 
       // Ici j'initialise la selection sur les éléments déjà afficher
-      this.checkedColumns = this.displayedColumns;
+      this.checkedColumns = this.helper.getDisplayedColumns();
 
       this.dataSource.data = this.todos;
       this.dataSource.sort = this.sort;
-      console.log(this.stateColumns);
     });
   }
 
@@ -274,31 +236,7 @@ export class TodoTableComponent implements OnInit {
     this.checkedStatus = this._allChecked();
   }
 
-  /**
-   * Affiche ou masque les colonnes lorsqu'on les sélectionne.
-   * @param column La colonne que l'ont veut masquer/afficher
-   */
-  public updateColumn(column): void {
-    const columnTxt: string = column;
-
-    //Si la colonne est déjà affiché, je la masque 
-    if (this.displayedColumns.indexOf(columnTxt) !== -1) {
-      this.stateColumns[this.originalColumns.indexOf(columnTxt)] = 0;
-    }
-    else { // Sinon je la rajoute
-      this.stateColumns[this.originalColumns.indexOf(columnTxt)] = 1;
-    }
-
-    //Je reconstruit le displayColumns à partir du tableau stateColumns.
-    let index = 0;
-    let tempTab = []
-    for (const column of this.originalColumns) {
-      if (this.stateColumns[index] == 1) {
-        tempTab.push(column);
-      }
-      index++;
-    }
-    this.displayedColumns = tempTab;
-    console.log(this.stateColumns);
+  public changeView(event: any):void {
+    this.helper.setDisplayedColumns(this.selectedOptions);
   }
 }
