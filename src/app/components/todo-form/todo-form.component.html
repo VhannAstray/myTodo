@@ -1,0 +1,37 @@
+<form class="form-group" [formGroup]="todoForm" (submit)="saveTodo()">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">A faire ...</span>
+    </div>
+    <input type="text" class="form-control" formControlName="title" placeholder="Ecrire le todo ici ...">
+    <div class="alert alert-warning" *ngIf="title.invalid && title.touched">
+      Le titre du todo ne peut pas être vide et contenir au moins 5 caractères.
+    </div>
+  </div>
+
+  <!-- <input type="text" placeholder="A faire ..." [(ngModel)]="aTodo"> -->
+  <!-- <button type="button" [disabled]="inputValid()" (click)="addTodo()">Ajouter</button>
+  <button type="button" [disabled]="noneChecked()" (click)="removeTodoSel()">Retirer</button> -->
+
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Du ...</span>
+    </div>
+    <input type="date" class="form-control" formControlName="begin">
+  </div>
+  <div>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Au ...</span>
+      </div>
+      <input type="date" class="form-control" formControlName="end">
+    </div>
+  </div>
+  <div class="alert alert-warning" *ngIf="todoForm.hasError('begin')">
+     La date de fin doit être supérieur à la date du début
+  </div>
+  <div id="buttonControl">
+    <button id="ajouter" class="btn btn-success" [disabled]="todoForm.invalid" type="submit">Ajouter</button>
+    <button id="retirer" class="btn btn-danger" (click)="removeTodoSel()" type="button">Retirer</button>
+  </div>
+</form>

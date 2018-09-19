@@ -1,0 +1,46 @@
+mat-table{
+    width: 800px;
+    margin: auto;
+    margin-top: 15px;
+    border: 1px solid #ccc!important;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 140, 255, 0.05);
+}
+/**
+* Design du composant AppComponent
+**/ 
+table {
+    tbody {
+        td {
+            &.strikeOut {
+                text-decoration: line-through;
+            }
+        }
+    }
+}
+#btnDeleteMulti{
+    justify-content: right;
+}
+.fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+.mat-toolbar.mat-primary {
+    background: #8cbaeb;
+    color: #fff;
+    width: 100%;
+}
+.mat-option-disabled {
+    color: #000000;
+}
+.mat-cell, .mat-footer-cell, .mat-header-cell {
+    justify-content: center;
+}
+.mat-header-cell {
+    font-size: 18px;
+}
+.mat-accent{
+    background-color: #fff;
+}

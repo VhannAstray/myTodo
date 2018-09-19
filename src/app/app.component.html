@@ -1,27 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    {{ title }}
-  </h1>
-</div>
-<div>
-  <input type="text" placeholder="A faire ..." [(ngModel)]="aTodo">
-  <button type="button" [disabled]="inputValid()" (click)="addTodo()">Ajouter</button>
-  <button type="button" [disabled]="noneChecked()" (click)="removeTodoSel()">Retirer</button>
-  <table [hidden]="todos.length == 0">
-    <thead>
-      <tr>
-        <th><input type="checkbox" (click)="checkUncheckAll()" [checked]=checkedStatus></th>
-        <th>Titre</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let todo of todos; let i = index;">
-        <td><input type="checkbox" (click)="toggle(i)" [checked]=todo.isChecked></td>
-        <td [ngClass]="{strikeOut: isChecked(todo)}">{{ todo.title }}</td>
-        <td><button type="button" (click)="delete(i)">X</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<app-layout>
+  <!-- Intégration du composant todo-form -->
+  <todo-form></todo-form>
+  <todo-table></todo-table>
+</app-layout>
